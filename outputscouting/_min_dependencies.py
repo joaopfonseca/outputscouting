@@ -1,4 +1,4 @@
-"""All minimum dependencies for output-scouting."""
+"""All minimum dependencies for outputscouting."""
 
 import argparse
 

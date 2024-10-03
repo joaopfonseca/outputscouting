@@ -1,5 +1,5 @@
 """
-`output-scouting` is a library containing the method proposed in [WIP].
+`outputscouting` is a library containing the method proposed in [WIP].
 """
 
 # PEP0440 compatible formatted version, see:

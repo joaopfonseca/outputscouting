@@ -30,7 +30,7 @@ with open(ver_file) as f:
 
 MAINTAINER = "J. Fonseca & A. Bell"
 MAINTAINER_EMAIL = "jpfonseca@novaims.unl.pt"
-URL = "https://github.com/joaopfonseca/output-scouting"
+URL = "https://github.com/joaopfonseca/outputscouting"
 VERSION = __version__  # noqa
 SHORT_DESCRIPTION = (
     "Implementation of the Output Scouting technique proposed in [TBD]."
@@ -58,7 +58,7 @@ EXTRAS_REQUIRE = {
 }
 
 setup(
-    name="output-scouting",
+    name="outputscouting",
     maintainer=MAINTAINER,
     maintainer_email=MAINTAINER_EMAIL,
     url=URL,
