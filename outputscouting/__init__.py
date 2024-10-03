@@ -1,5 +1,5 @@
 from .base import OutputScouting
-from ._commander import CentralCommand
+from ._command import CentralCommand
 from ._scout import Scout
 from ._temp_setter import (
     powerspace,

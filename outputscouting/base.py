@@ -3,9 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.utils import check_random_state
-from ._commander import CentralCommand
+from ._command import CentralCommand
 from ._scout import Scout
-from ._scheduler import TemperatureScheduler
+from ._temp_setter import AuxTemperatureSetter
 
 
 class OutputScouting:
@@ -49,7 +49,7 @@ class OutputScouting:
             self._rng = check_random_state(self.random_state)
 
         if self.cooling_function == "scheduler":
-            self.cooling_schedule = TemperatureScheduler(
+            self.cooling_schedule = AuxTemperatureSetter(
                 start=self.start, end=self.end, power=self.power
             )
         elif self.cooling_function is not None:
