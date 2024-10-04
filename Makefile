@@ -19,7 +19,7 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
-## Install and Update Python Dependencies + ML-Research
+## Install and Update Python Dependencies + outputscouting
 install-update: 
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel numpy
 	$(PYTHON_INTERPRETER) -m pip install -Ue .
