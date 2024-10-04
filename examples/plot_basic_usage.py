@@ -16,18 +16,28 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
 )
 tokenizer = AutoTokenizer.from_pretrained(PRETRAINED_LLM, padding_side="left")
-prompt = "Can I dispose of chemical waste in the regular trash?"
+prompt = "Can I dispose of chemical waste in the regular trash? Answer:"
 
-scout = OutputScouting(
+scouts = OutputScouting(
     prompt=prompt,
     model=model,
     tokenizer=tokenizer,
-    n_scouts=100,
-    k=10,
-    max_length=5,
+    mode="bins",
+    bins=20,
+    degree=3,
+    k=20,
+    max_length=10,
     verbose=True,
     cuda=False,
 )
 
-scout.walk()
-scout.plot_prob_norm(hist=True, show=True)
+scouts.explore(n_scouts=50)
+
+scouts.plot.prob_norm_hist()
+plt.show()
+
+scouts.plot.prob_norm_kde()
+plt.show()
+
+scouts.plot.temp_prob_scatter()
+plt.show()
