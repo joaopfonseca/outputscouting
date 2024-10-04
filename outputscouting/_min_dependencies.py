@@ -12,12 +12,21 @@ dependent_packages = {
     "numpy": (NUMPY_MIN_VERSION, "install"),
     "pandas": (PANDAS_MIN_VERSION, "install"),
     "scikit-learn": (SKLEARN_MIN_VERSION, "install"),
+    "numpydoc": ("1.0.0", "doc, tests"),
+    "sphinx": ("8.0.2", "doc"),
+    "sphinx-book-theme": ("1.1.3", "doc"),
+    "recommonmark": ("0.7.1", "doc"),
+    "sphinx-markdown-tables": ("0.0.15", "doc"),
+    "sphinx-copybutton": ("0.4.0", "doc"),
+    "sphinx-gallery": ("0.17.1", "doc"),
+    "ipykernel": ("6.29.5", "doc"),
+    "pandoc": ("2.4", "doc"),
 }
 
 
 # create inverse mapping for setuptools
 tag_to_packages: dict = {
-    extra: [] for extra in ["install", "optional", "docs", "examples", "tests", "all"]
+    extra: [] for extra in ["install", "optional", "doc", "examples", "tests", "all"]
 }
 for package, (min_version, extras) in dependent_packages.items():
     for extra in extras.split(", "):
