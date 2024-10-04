@@ -6,13 +6,21 @@ API
 
 This is the full API documentation of the `outputscouting` package.
 
+:mod:`outputscouting`
+---------------------------------
+
+.. automodule:: outputscouting
+    :no-members:
+    :no-inherited-members:
+
+.. currentmodule:: outputscouting
 
 .. autosummary::
     :toctree: _generated/
     :template: class.rst
     
-    outputscouting.OutputScouting
-    outputscouting.CentralCommand
-    outputscouting.Scout
-    outputscouting.AuxTemperatureSetter
-    outputscouting.sample_from_pdf
+    OutputScouting
+    CentralCommand
+    Scout
+    AuxTemperatureSetter
+    sample_from_pdf
