@@ -1,0 +1,269 @@
+{
+ "AutoModelForCausalLM.from_pretrained": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models.auto.modeling_auto",
+   "module_short": "transformers.models.auto",
+   "name": "AutoModelForCausalLM.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models.auto",
+   "module_short": "transformers.models.auto",
+   "name": "AutoModelForCausalLM.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models",
+   "module_short": "transformers.models",
+   "name": "AutoModelForCausalLM.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers",
+   "module_short": "transformers",
+   "name": "AutoModelForCausalLM.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models.auto.auto_factory",
+   "module_short": "transformers.models.auto.auto_factory",
+   "name": "_BaseAutoModelClass.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models.auto",
+   "module_short": "transformers.models.auto",
+   "name": "_BaseAutoModelClass.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models",
+   "module_short": "transformers.models",
+   "name": "_BaseAutoModelClass.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers",
+   "module_short": "transformers",
+   "name": "_BaseAutoModelClass.from_pretrained"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.AutoModelForCausalLM",
+   "module_short": "transformers.AutoModelForCausalLM",
+   "name": "from_pretrained"
+  }
+ ],
+ "AutoTokenizer.from_pretrained": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models.auto.tokenization_auto",
+   "module_short": "transformers.models.auto",
+   "name": "AutoTokenizer.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models.auto",
+   "module_short": "transformers.models.auto",
+   "name": "AutoTokenizer.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers.models",
+   "module_short": "transformers.models",
+   "name": "AutoTokenizer.from_pretrained"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "transformers",
+   "module_short": "transformers",
+   "name": "AutoTokenizer.from_pretrained"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.AutoTokenizer",
+   "module_short": "transformers.AutoTokenizer",
+   "name": "from_pretrained"
+  }
+ ],
+ "OutputScouting": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "outputscouting.base",
+   "module_short": "outputscouting",
+   "name": "OutputScouting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "outputscouting",
+   "module_short": "outputscouting",
+   "name": "OutputScouting"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting",
+   "module_short": "outputscouting",
+   "name": "OutputScouting"
+  }
+ ],
+ "PRETRAINED_LLM": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "str"
+  }
+ ],
+ "model": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.models.llama.modeling_llama",
+   "module_short": "transformers.models.llama",
+   "name": "LlamaForCausalLM"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.models.llama",
+   "module_short": "transformers.models.llama",
+   "name": "LlamaForCausalLM"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.models",
+   "module_short": "transformers.models",
+   "name": "LlamaForCausalLM"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers",
+   "module_short": "transformers",
+   "name": "LlamaForCausalLM"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "prompt": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "str"
+  }
+ ],
+ "scouts": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting.base",
+   "module_short": "outputscouting",
+   "name": "OutputScouting"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting",
+   "module_short": "outputscouting",
+   "name": "OutputScouting"
+  }
+ ],
+ "scouts.explore": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting.base",
+   "module_short": "outputscouting",
+   "name": "OutputScouting.explore"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting",
+   "module_short": "outputscouting",
+   "name": "OutputScouting.explore"
+  }
+ ],
+ "scouts.plot.prob_norm_hist": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting._visualization",
+   "module_short": "outputscouting._visualization",
+   "name": "_ScoutViz.prob_norm_hist"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "outputscouting",
+   "module_short": "outputscouting",
+   "name": "_ScoutViz.prob_norm_hist"
+  }
+ ],
+ "tokenizer": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.models.llama.tokenization_llama_fast",
+   "module_short": "transformers.models.llama",
+   "name": "LlamaTokenizerFast"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.models.llama",
+   "module_short": "transformers.models.llama",
+   "name": "LlamaTokenizerFast"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers.models",
+   "module_short": "transformers.models",
+   "name": "LlamaTokenizerFast"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "transformers",
+   "module_short": "transformers",
+   "name": "LlamaTokenizerFast"
+  }
+ ]
+}
