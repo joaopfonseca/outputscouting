@@ -5,13 +5,18 @@ import argparse
 NUMPY_MIN_VERSION = "1.20.0"
 PANDAS_MIN_VERSION = "2.1.0"
 SKLEARN_MIN_VERSION = "1.2.0"
-
+TORCH_MIN_VERSION = "2.4.1"
+MATPLOTLIB_MIN_VERSION = "3.9.2"
+SEABORN_MIN_VERSION = "0.13.2"
 
 # The values are (version_spec, comma separated tags)
 dependent_packages = {
     "numpy": (NUMPY_MIN_VERSION, "install"),
     "pandas": (PANDAS_MIN_VERSION, "install"),
     "scikit-learn": (SKLEARN_MIN_VERSION, "install"),
+    "torch": (TORCH_MIN_VERSION, "install"),
+    "matplotlib": (MATPLOTLIB_MIN_VERSION, "install"),
+    "seaborn": (SEABORN_MIN_VERSION, "install"),
     "numpydoc": ("1.0.0", "doc, tests"),
     "sphinx": ("8.0.2", "doc"),
     "sphinx-book-theme": ("1.1.3", "doc"),
