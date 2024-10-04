@@ -39,7 +39,7 @@ class Scout:
 
         return out
 
-    def walk(self, verbose=False):
+    def explore(self, verbose=False):
         prompt = self.prompt
         eos_token = self.commander.tokenizer.eos_token
 

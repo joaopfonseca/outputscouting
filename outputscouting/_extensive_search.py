@@ -27,8 +27,8 @@ class ExtensiveSearch(Scout):
                 prompt_ = prompt + text
                 if verbose:
                     print("DEBUG2::", prompt_)
-                self._standard_step(prompt_, verbose=verbose)
+                self._step(prompt_, verbose=verbose)
 
-    def walk(self, verbose=False):
-        self._standard_step(self.init_prompt, verbose=verbose)
+    def explore(self, verbose=False):
+        self._step(self.init_prompt, verbose=verbose)
         return self

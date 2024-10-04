@@ -7,6 +7,7 @@ from sklearn.utils import check_random_state
 from ._command import CentralCommand
 from ._scout import Scout
 from ._temp_setter import AuxTemperatureSetter
+from ._visualization import _ScoutViz
 
 
 class OutputScouting:
@@ -15,13 +16,13 @@ class OutputScouting:
         prompt,
         model,
         tokenizer,
+        t=0.5,
         t_min=0.01,
         t_max=2,
         degree=3,
         target_distribution=uniform(),
         mode="kde",
         bins=20,
-        n_scouts=500,
         k=10,
         p=None,
         max_length=np.inf,
@@ -32,13 +33,13 @@ class OutputScouting:
         self.prompt = prompt
         self.model = model
         self.tokenizer = tokenizer
+        self.t = t
         self.t_min = t_min
         self.t_max = t_max
         self.degree = degree
         self.target_distribution = target_distribution
         self.mode = mode
         self.bins = bins
-        self.n_scouts = n_scouts
         self.k = k
         self.p = p
         self.max_length = max_length
@@ -46,7 +47,9 @@ class OutputScouting:
         self.random_state = random_state
         self.verbose = verbose
 
-    def walk(self):
+        self.plot = _ScoutViz(self)
+
+    def explore(self, n_scouts=1):
         if not hasattr(self, "_commander"):
             self._commander = CentralCommand(
                 self.model, self.tokenizer, k=self.k, p=self.p, cuda=self.cuda
@@ -55,25 +58,29 @@ class OutputScouting:
         if not hasattr(self, "_rng"):
             self._rng = check_random_state(self.random_state)
 
-        self.temp_setter = AuxTemperatureSetter(
-            t_min=self.t_min,
-            t_max=self.t_max,
-            degree=self.degree,
-            target_distribution=self.target_distribution,
-            mode=self.mode,
-            bins=self.bins,
-        )
+        if not hasattr(self, "temp_setter"):
+            self.temp_setter = AuxTemperatureSetter(
+                t_min=self.t_min,
+                t_max=self.t_max,
+                degree=self.degree,
+                target_distribution=self.target_distribution,
+                mode=self.mode,
+                bins=self.bins,
+            )
 
-        self.scouts = []
-        for i in range(self.n_scouts):
+        if not hasattr(self, "scouts"):
+            self.scouts = []
+
+        for i in range(n_scouts):
             t_aux = self.temp_setter.get_temperature()
             scout = Scout(
                 self.prompt,
                 self._commander,
+                t=self.t,
                 t_aux=t_aux,
                 max_length=self.max_length,
             )
-            scout.walk(verbose=self.verbose)
+            scout.explore(verbose=self.verbose)
             prob = scout.get_data()["prob_norm"]
             self.temp_setter.add_point(prob, t_aux)
             self.scouts.append(scout)
@@ -82,19 +89,3 @@ class OutputScouting:
 
     def get_data(self):
         return pd.DataFrame([scout.get_data() for scout in self.scouts])
-
-    def plot_prob_norm(self, include_duplicates=True, show=False, hist=True):
-        if include_duplicates:
-            data = self.get_data()
-        else:
-            data = self.get_data().drop_duplicates(subset="phrase")
-
-        if hist:
-            ax = sns.histplot(data=data, x="prob_norm")
-        else:
-            ax = sns.kdeplot(data=data, x="prob_norm")
-
-        if show:
-            plt.show()
-        else:
-            return ax

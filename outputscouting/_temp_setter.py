@@ -38,8 +38,8 @@ class AuxTemperatureSetter:
         self._t_aux = np.append(self._t_aux, t_aux)
 
         # Update the stored max and min
-        self.min_prob = min(self._t_aux)
-        self.max_prob = max(self._t_aux)
+        self.min_prob = min(self._probs.flatten())
+        self.max_prob = max(self._probs.flatten())
 
     def get_temperature(self, plot=False):
 
@@ -53,21 +53,22 @@ class AuxTemperatureSetter:
             return self.t_max
 
         if self.degree:
-            model = Pipeline(
+            self.model_ = Pipeline(
                 [
                     ("poly", PolynomialFeatures(degree=self.degree)),
                     ("linear", LinearRegression(fit_intercept=True)),
                 ]
             )
-            model.fit(self._probs, self._t_aux)
+            self.model_.fit(self._probs, self._t_aux)
 
         else:
-            model = LinearRegression(fit_intercept=True).fit(self._probs, self._t_aux)
-
-        prob_space = np.linspace(start=self.t_min, stop=self.t_max, num=100)
-        temp_space = model.predict(prob_space.reshape(-1, 1))
+            self.model_ = LinearRegression(fit_intercept=True).fit(
+                self._probs, self._t_aux
+            )
 
         if plot:
+            prob_space = np.linspace(start=self.t_min, stop=self.t_max, num=100)
+            temp_space = self.model_.predict(prob_space.reshape(-1, 1))
             # Plot regressor
             plt.plot(prob_space, temp_space)
 
@@ -114,7 +115,7 @@ class AuxTemperatureSetter:
                 loc=[self.min_prob, self.max_prob],
             )[0]
 
-        t_aux = model.predict(np.array([[target_prob_norm]]))[0]
+        t_aux = self.model_.predict(np.array([[target_prob_norm]]))[0]
 
         if t_aux < self.t_min:
             t_aux = self.t_min
