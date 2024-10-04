@@ -6,19 +6,6 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 
 
-# https://stackoverflow.com/questions/53345583/python-numpy-exponentially-spaced-samples-between-a-start-and-end-value
-def powerspace(start, stop, power, num):
-    start = np.power(start, 1 / float(power))
-    stop = np.power(stop, 1 / float(power))
-    return np.power(np.linspace(start, stop, num=num), power)
-
-
-def inverse_powerspace(start, stop, power, num):
-    start = np.power(start, 1 / float(power))
-    stop = np.power(stop, 1 / float(power))
-    return np.power(start, power) - np.power(np.linspace(stop, start, num=num), power)
-
-
 def sample_from_pdf(pdf, n_samples=1, loc=[0, 1]):
     candidates = (uniform().rvs(size=1000 * n_samples) * (loc[1] - loc[0])) + loc[0]
     probs = pdf(candidates)
@@ -31,8 +18,6 @@ class AuxTemperatureSetter:
         self,
         t_min=0.01,
         t_max=2,
-        min_prob=None,
-        max_prob=None,
         degree=None,
         target_distribution=uniform(),
         mode="kde",
@@ -40,15 +25,10 @@ class AuxTemperatureSetter:
     ):
         self.t_min = t_min
         self.t_max = t_max
-        self.min_prob = min_prob
-        self.max_prob = max_prob
         self.degree = degree
         self.bins = bins
         self.target_distribution = target_distribution
         self.mode = mode
-
-        self._probs = np.array([])
-        self._t_aux = np.array([])
 
         self._target_prob_history = []
 
@@ -61,9 +41,16 @@ class AuxTemperatureSetter:
         self.min_prob = min(self._t_aux)
         self.max_prob = max(self._t_aux)
 
-        return True
+    def get_temperature(self, plot=False):
 
-    def fit_line(self, plot=True):
+        if not hasattr(self, "_probs"):
+            self._probs = np.array([])
+            self._t_aux = np.array([])
+
+        if len(self._probs) == 0:
+            return self.t_min
+        elif len(self._probs) == 1:
+            return self.t_max
 
         if self.degree:
             model = Pipeline(
@@ -97,7 +84,7 @@ class AuxTemperatureSetter:
 
         if self.mode == "bins":
             hist, edges = np.histogram(
-                self.y, range=(self.min_prob, self.max_prob), bins=self.bins
+                self._probs, range=(self.min_prob, self.max_prob), bins=self.bins
             )
 
             if len(self._target_prob_history) > 0:
@@ -114,7 +101,7 @@ class AuxTemperatureSetter:
             self._target_prob_history.append(target_prob_norm)
 
         elif self.mode == "kde":
-            self.kde_ = gaussian_kde(self.y, bw_method="silverman")
+            self.kde_ = gaussian_kde(self._probs.T, bw_method="silverman")
 
             # test_var = np.linspace(0,1,100)
             # plt.plot(test_var, self.kde_(test_var))
@@ -127,15 +114,11 @@ class AuxTemperatureSetter:
                 loc=[self.min_prob, self.max_prob],
             )[0]
 
-        if self.degree is not None:
-            idx = (np.abs(prob_space - target_prob_norm)).argmin()
-            next_aux_T = temp_space[idx]
-        else:
-            next_aux_T = (target_prob_norm - model.intercept_) / model.coef_[0]
+        t_aux = model.predict(np.array([[target_prob_norm]]))[0]
 
-        if next_aux_T < self.t_min:
-            next_aux_T = self.t_min
-        elif next_aux_T > self.t_max:
-            next_aux_T = self.t_max
+        if t_aux < self.t_min:
+            t_aux = self.t_min
+        elif t_aux > self.t_max:
+            t_aux = self.t_max
 
-        return next_aux_T, target_prob_norm
+        return t_aux

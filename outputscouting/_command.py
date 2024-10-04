@@ -63,7 +63,7 @@ class CentralCommand:
 
             # TODO: CHANGE TO pd.concat
             self._data.loc[len(self._data)] = prompt_data
-            del d, last_hidden_state
+            # del d, last_hidden_state
 
         return logits_topk, logits_topk_idx
 
@@ -97,7 +97,7 @@ class CentralCommand:
 
         if self.mode == "topk":
             logits_topk, logits_topk_idx = torch.topk(logits, self.k)
-            del logits
+            # del logits
             return logits_topk, logits_topk_idx, last_hidden_state
         else:
             raise Exception("Modes other than topk not yet available")

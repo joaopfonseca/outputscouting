@@ -8,14 +8,12 @@ class Scout:
     Explores a single path through the output space/tree.
     """
 
-    def __init__(
-        self, prompt, command=None, temp=0.5, temp_aux=None, max_length=np.inf
-    ):
+    def __init__(self, prompt, commander=None, t=0.5, t_aux=None, max_length=np.inf):
         self.prompt = prompt
-        self.command = command
+        self.commander = commander
         self.max_length = max_length
-        self.temp = temp
-        self.temp_aux = temp_aux
+        self.t = t
+        self.t_aux = t_aux
 
         self._data = pd.DataFrame(columns=["token", "prob"])
 
@@ -23,9 +21,9 @@ class Scout:
         out = {}
         out["phrase"] = "".join(self._data["token"].values)
 
-        # Store metadata (temp, temp_aux and max_length)
-        out["temp"] = self.temp
-        out["temp_aux"] = self.temp_aux
+        # Store metadata (temp, t_aux and max_length)
+        out["temp"] = self.t
+        out["temp_aux"] = self.t_aux
         out["max_length"] = self.max_length
 
         # Compute overall probability
@@ -43,7 +41,7 @@ class Scout:
 
     def walk(self, verbose=False):
         prompt = self.prompt
-        eos_token = self.command.tokenizer.eos_token
+        eos_token = self.commander.tokenizer.eos_token
 
         end_state = False
         while not end_state:
@@ -60,22 +58,22 @@ class Scout:
 
     def _step(self, prompt, end_state=False, verbose=False):
 
-        if self.command.mode == "topk":
-            logits_top, logits_top_idx = self.command.get_top_k_logits(
+        if self.commander.mode == "topk":
+            logits_top, logits_top_idx = self.commander.get_top_k_logits(
                 prompt, end_state=end_state, verbose=False
             )
         else:
             raise Exception("Modes other than topk not yet available")
 
-        texts_top = self.command.tokenizer.convert_ids_to_tokens(logits_top_idx)
-        probs_top = torch.nn.functional.softmax(logits_top / self.temp, dim=-1)
+        texts_top = self.commander.tokenizer.convert_ids_to_tokens(logits_top_idx)
+        probs_top = torch.nn.functional.softmax(logits_top / self.t, dim=-1)
 
-        if self.temp_aux:
-            probs_aux = torch.nn.functional.softmax(logits_top / self.temp_aux, dim=-1)
+        if self.t_aux:
+            probs_aux = torch.nn.functional.softmax(logits_top / self.t_aux, dim=-1)
             probs_aux = probs_aux.detach().numpy()
 
             if verbose:
-                print("DEBUG::temp_aux probs: ", probs_aux)
+                print("DEBUG::t_aux probs: ", probs_aux)
 
             next_idx = np.random.choice(len(texts_top), p=probs_aux)
 
