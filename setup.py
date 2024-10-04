@@ -32,9 +32,7 @@ MAINTAINER = "J. Fonseca & A. Bell"
 MAINTAINER_EMAIL = "jpfonseca@novaims.unl.pt"
 URL = "https://github.com/joaopfonseca/outputscouting"
 VERSION = __version__  # noqa
-SHORT_DESCRIPTION = (
-    "Implementation of the Output Scouting technique proposed in [TBD]."
-)
+SHORT_DESCRIPTION = "Implementation of the Output Scouting technique proposed in [TBD]."
 LICENSE = "MIT"
 CLASSIFIERS = [
     "Intended Audience :: Science/Research",
