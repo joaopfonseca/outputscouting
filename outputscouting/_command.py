@@ -15,7 +15,7 @@ class CentralCommand:
         self.tokenizer = tokenizer
         self._data = pd.DataFrame(
             columns=[
-                "prompt",
+                "output",
                 "k",
                 "logits_topk",
                 "logits_topk_idx",
@@ -32,52 +32,52 @@ class CentralCommand:
             self.mode = "topp"
             self.p = p
 
-    def get_top_k_logits(self, prompt, end_state=False, verbose=False):
+    def get_top_k_logits(self, all_ids, output, end_state=False, verbose=False):
         """
         Check if a prompt has been previously stored.
         """
-        # TODO: REFACTOR LINE BELOW USING A PANDAS METHOD
-        if prompt in list(self._data.prompt.unique()):
+        if output in list(self._data.output.unique()):
             if verbose:
                 print("DEBUG::using logits from storage")
 
-            prompt_mask = self._data["prompt"] == prompt
-            logits_topk = self._data.loc[prompt_mask, "logits_topk"].values[0][0]
-            logits_topk_idx = self._data.loc[prompt_mask, "logits_topk_idx"].values[0][
+            output_mask = self._data["output"] == output
+            logits_topk = self._data.loc[output_mask, "logits_topk"].values[0][0]
+            logits_topk_idx = self._data.loc[output_mask, "logits_topk_idx"].values[0][
                 0
             ]
         else:
-            logits_topk, logits_topk_idx, last_hidden_state = self._forward_pass(prompt)
+            logits_topk, logits_topk_idx, last_hidden_state = self._forward_pass(
+                all_ids
+            )
 
-            prompt_data = {
-                "prompt": prompt,
+            output_data = {
+                "output": output,
                 "k": self.k,
                 "logits_topk": [logits_topk],
                 "logits_topk_idx": [logits_topk_idx],
             }
 
             if end_state:
-                prompt_data["last_hidden_state"] = [last_hidden_state]
+                output_data["last_hidden_state"] = [last_hidden_state]
             else:
-                prompt_data["last_hidden_state"] = None
+                output_data["last_hidden_state"] = None
 
             # TODO: CHANGE TO pd.concat
-            self._data.loc[len(self._data)] = prompt_data
+            self._data.loc[len(self._data)] = output_data
             # del d, last_hidden_state
 
         return logits_topk, logits_topk_idx
 
-    def _forward_pass(self, prompt, verbose=False):
+    def _forward_pass(self, all_ids, verbose=False):
         # Encode input to tokens
         if verbose:
             print("DEBUG::GPU memory:: ", torch.cuda.memory_allocated(0))
 
-        input_ids = self.tokenizer.encode(prompt, return_tensors="pt")
-        input_ids = input_ids.cuda() if self.cuda else input_ids
+        all_ids = all_ids.cuda() if self.cuda else all_ids
 
         with torch.no_grad():
             outputs = self.model(
-                input_ids,
+                all_ids,
                 use_cache=False,
                 output_hidden_states=True,
                 output_attentions=False,
@@ -88,7 +88,7 @@ class CentralCommand:
         if self.cuda:
             logits = logits.cpu()
             last_hidden_state = last_hidden_state.cpu()
-            input_ids = input_ids.cpu()
+            all_ids = all_ids.cpu()
 
         if verbose:
             print("DEBUG::GPU memory:: ", torch.cuda.memory_allocated(0))

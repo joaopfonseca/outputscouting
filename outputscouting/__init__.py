@@ -1,6 +1,7 @@
 """
 TODO: Add library description here
 """
+
 import sys
 
 try:
@@ -21,11 +22,13 @@ else:
     from ._command import CentralCommand
     from ._scout import Scout
     from ._temp_setter import sample_from_pdf, AuxTemperatureSetter
+    from ._loader import load_model
 
     __all__ = [
         "OutputScouting",
         "CentralCommand",
         "Scout",
-        "sample_from_pdf",
         "AuxTemperatureSetter",
+        "sample_from_pdf",
+        "load_model",
     ]
