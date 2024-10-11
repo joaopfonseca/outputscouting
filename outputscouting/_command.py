@@ -84,6 +84,7 @@ class CentralCommand:
             )
             logits = outputs["logits"]
             last_hidden_state = outputs["hidden_states"][-1]
+            del outputs
 
         if self.cuda:
             logits = logits.cpu()

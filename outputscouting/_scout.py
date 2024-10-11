@@ -88,10 +88,6 @@ class Scout:
             if output.find(eos_token) >= 0 or self._data.shape[0] >= self.max_length:
                 end_state = True
 
-            if self.commander.cuda:
-                prompt_ids = prompt_ids.cuda()
-                output_ids = output_ids.cuda()
-
             if self.commander.mode == "topk":
                 all_ids = torch.cat([prompt_ids, output_ids], dim=-1)
                 logits_top, logits_top_idx = self.commander.get_top_k_logits(
