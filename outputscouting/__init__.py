@@ -22,7 +22,6 @@ else:
     from ._command import CentralCommand
     from ._scout import Scout
     from ._temp_setter import sample_from_pdf, AuxTemperatureSetter
-    from ._loader import load_model
 
     __all__ = [
         "OutputScouting",
@@ -30,5 +29,4 @@ else:
         "Scout",
         "AuxTemperatureSetter",
         "sample_from_pdf",
-        "load_model",
     ]
