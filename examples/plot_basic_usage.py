@@ -6,17 +6,12 @@ Content goes here.
 """
 
 import matplotlib.pyplot as plt
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from outputscouting import OutputScouting
+from outputscouting import OutputScouting, load_model
 
-PRETRAINED_LLM = "TinyLlama/TinyLlama-1.1B-step-50K-105b"
+PRETRAINED_LLM = "meta-llama/Llama-3.2-1B-Instruct"
 
-model = AutoModelForCausalLM.from_pretrained(
-    PRETRAINED_LLM,
-    device_map="auto",
-)
-tokenizer = AutoTokenizer.from_pretrained(PRETRAINED_LLM, padding_side="left")
-prompt = "Can I dispose of chemical waste in the regular trash? Answer:"
+model, tokenizer = load_model(PRETRAINED_LLM)
+prompt = "Can I dispose of chemical waste in the regular trash?"
 
 scouts = OutputScouting(
     prompt=prompt,
